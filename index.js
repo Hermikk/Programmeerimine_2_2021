@@ -1,162 +1,131 @@
 const express = require('express');
+const config = require('./config');
+const database = require('./database');
 const app = express();
+const port = config.port;
+const timesRoutes = require('./api/routes/timesRoutes');
+const subjectsRoutes = require('./api/routes/subjectsRoutes');
+const volumesRoutes = require('./api/routes/volumesRoutes');
+const lecturersRoutes = require('./api/routes/lecturersRoutes');
 
-const port = 3000;
 
-const times = [
-    {
-      id: 1,
-      description: '10:00-13:15'
-    },
-    {
-      id: 2,
-      description: '14:15-17:30'
-    },
-    {
-      id: 3,
-      description: '10:00-17.30'
-    },
-  ];
-const subjects = [
-    {
-      id: 1,
-      description: 'Üld- ja sotsiaalpsühholoogia'
-    },
-    {
-      id: 2,
-      description: 'Sissejuhatus disaini'
-    },
-    {
-      id: 3,
-      description: 'Multimeediumi praktika'
-    },
-    {
-      id: 4,
-      description: 'IT ja õigus'
-    },
-  ];
-const volumes = [
-    {
-      id: 1,
-      description: '4'
-    },
-    {
-      id: 2,
-      description: '8'
-    },
-  ];
-const lecturers = [
-    {
-      id: 1,
-      description: 'Õppejõu nimi 1'
-    },
-    {
-      id: 2,
-      description: 'Õppejõu nimi 2'
-    },
-  ];
-  
 app.use(express.json());
 
+const logger = (req, res, next) => {
+  console.log(new Date(), req.method, req.url);
+  next();
+};
+
+// Middleware for creating req.body in express app
+app.use(express.json());
+// Routes
+app.use('/times', timesRoutes);
+app.use('/subjects', subjectsRoutes);
+app.use('/volumes', volumesRoutes);
+app.use('/lecturers', lecturersRoutes);
+
+
+// Logger middleware
+app.use(logger);
 
 
 //tundide ajad
+  
 app.get('/times', (req, res) => {
-    res.status(200).json({
-      times: times
+  res.status(200).json({
+    times,
+  });
+});
+
+
+app.get('/times/:id', (req, res) => {
+  const id = req.params.id;
+  const time = times[id - 1];
+  res.status(200).json({
+    time: time
+  });
+});
+  
+app.post('/times', (req, res) => {
+  const description = req.body.description;
+  if (description) {
+    const time = {
+      id: times.length + 1,
+      description: description
+    };
+    times.push(time);
+    res.status(201).json({
+      id: time.id
     });
-  });
-  
-  app.get('/times/:id', (req, res) => {
-    const key = req.query.key;
-    const id = req.params.id;
-    const time = times[id - 1];
-    res.status(200).json({
-      time: time
+  } else {
+    res.status(400).json({
+      error: 'Description is missing'
     });
-  });
+  }
+});
   
-  app.post('/times', (req, res) => {
-    const description = req.body.description;
-    if (description) {
-      const time = {
-        id: times.length + 1,
-        description: description
-      };
-      times.push(time);
-      res.status(201).json({
-        id: time.id
-      });
-    } else {
-      res.status(400).json({
-        error: 'Description is missing'
-      });
-    }
+app.delete('/times/:id', (req, res) => {
+  const id = req.params.id;
+  times.splice(id - 1, 1);
+  res.status(200).end();
+});
+
+app.patch('/times/:id', (req, res) => {
+  const id = req.params.id;
+  const description = req.body.description;
+  times[id - 1].description = description;
+  res.status(200).json({
+    success: true
   });
-  
-  app.delete('/times/:id', (req, res) => {
-    const id = req.params.id;
-    times.splice(id - 1, 1);
-    res.status(200).end();
-  });
-  
-  app.patch('/times/:id', (req, res) => {
-    const id = req.params.id;
-    const description = req.body.description;
-    times[id - 1].description = description;
-    res.status(200).json({
-      success: true
-    });
-  });
+});
   
 //Õppeainete nimetused
 app.get('/subjects', (req, res) => {
     res.status(200).json({
-      subjects: subjects
+      subjects,
     });
-  });
+});
   
-  app.get('/subjects/:id', (req, res) => {
-    const key = req.query.key;
-    const id = req.params.id;
-    const subject = subjects[id - 1];
-    res.status(200).json({
-      subject: subject
+app.get('/subjects/:id', (req, res) => {
+  const id = req.params.id;
+  const subject = subjects[id - 1];
+  res.status(200).json({
+    subject: subject,
+  });
+});
+  
+app.post('/subjects', (req, res) => {
+  const description = req.body.description;
+  if (description) {
+    const subject = {
+      id: subjects.length + 1,
+      description: description
+    };
+    subjects.push(subject);
+    res.status(201).json({
+      id: subject.id
     });
-  });
-  
-  app.post('/subjects', (req, res) => {
-    const description = req.body.description;
-    if (description) {
-      const subject = {
-        id: subjects.length + 1,
-        description: description
-      };
-      subjects.push(subject);
-      res.status(201).json({
-        id: subject.id
-      });
-    } else {
-      res.status(400).json({
-        error: 'Description is missing'
-      });
-    }
-  });
-  
-  app.delete('/subjects/:id', (req, res) => {
-    const id = req.params.id;
-    subjects.splice(id - 1, 1);
-    res.status(200).end();
-  });
-  
-  app.patch('/subjects/:id', (req, res) => {
-    const id = req.params.id;
-    const description = req.body.description;
-    subjects[id - 1].description = description;
-    res.status(200).json({
-      success: true
+  } else {
+    res.status(400).json({
+      error: 'Description is missing'
     });
+  }
+});
+  
+app.delete('/subjects/:id', (req, res) => {
+  const id = req.params.id;
+  subjects.splice(id - 1, 1);
+  res.status(200).end();
+});
+
+app.patch('/subjects/:id', (req, res) => {
+  const id = req.params.id;
+  const description = req.body.description;
+  subjects[id - 1].description = description;
+  res.status(200).json({
+    success: true
   });
+});
 //tundide arvud
 app.get('/volumes', (req, res) => {
     res.status(200).json({
