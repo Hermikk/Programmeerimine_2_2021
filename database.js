@@ -51,5 +51,24 @@ const database = {
         description: 'Õppejõu nimi 2'
       },
     ],
+  users: [
+    {
+      id: 1,
+      firstName: 'Juku',
+      lastName: 'Juurikas',
+      email: 'juku@juurikas.ee',
+      password: 'juku',
+      role: 'User',
+    },
+    {
+      id: 2,
+      firstName: 'Mati',
+      lastName: 'Maasikas',
+      email: 'mati@maasikas.ee',
+      password: 'mati',
+      role: 'Admin',
+    },
+  ],
+  
 };
   module.exports = database;
