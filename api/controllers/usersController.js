@@ -9,8 +9,8 @@ const usersController = {};
  * Optional values: none
  * Success: status 200 - OK and list of users
  */
-usersController.getUsers = (req, res) => {
-  const users = usersService.getUsers();
+usersController.getUsers = async (req, res) => {
+  const users = await usersService.getUsers();
   res.status(200).json({
     users,
   });

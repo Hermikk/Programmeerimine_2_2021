@@ -1,13 +1,14 @@
 const bcrypt = require('bcrypt');
-const database = require('../../database');
+//const database = require('../../database');
 const jwtService = require('./jwtService');
 const saltRounds = require('../../config');
+const db = require('../../db');
 
 const usersService = {};
 
 // Returns list of users
-usersService.getUsers = () => {
-  const { users } = database;
+usersService.getUsers = async () => {
+  const users = await db.query('SELECT id, firstName, lastName, email, role FROM apiusers WHERE deleted = 0');
   return users;
 };
 
@@ -70,8 +71,8 @@ usersService.login = async (login) => {
     if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-        const token = await jwtService.sign(user);
-        return token;
+          const token = await jwtService.sign(user);
+          return token;
         }
     }
     return false;
