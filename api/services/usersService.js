@@ -8,7 +8,7 @@ const usersService = {};
 
 // Returns list of users
 usersService.getUsers = () => {
-  const users = database.users;
+  const { users: users } = database;
   return users;
 };
 
@@ -22,19 +22,14 @@ usersService.getUserById = (id) => {
 };
 
 // Creates new user, returns id on new user
-usersService.createUser = async (newUser) => {
-    const id = database.users.length + 1;
-    const hash = await bcrypt.hash(newUser.password, saltRounds);
-    const user = {
-      id,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
-      email: newUser.email,
-      password: hash,
-      role: 'User',
-    };
-    database.users.push(user);
-    return id;
+usersService.createUser = (newUser) => {
+  const id = database.users.length + 1;
+  const user = {
+    id,
+    ...newUser,
+  };
+  database.users.push(user);
+  return id;
 };
     
 // Deletes user
