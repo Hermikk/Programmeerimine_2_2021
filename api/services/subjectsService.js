@@ -4,7 +4,7 @@ const subjectsService = {};
 
 // Returns all subjects
 subjectsService.getSubjects = () => {
-  const { volumes: subjects } = database;
+  const { subjects: subjects } = database;
   return subjects;
 };
 

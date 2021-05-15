@@ -44,29 +44,29 @@ const database = {
   lecturers: [
       {
         id: 1,
-        description: 'Õppejõu nimi 1'
+        description: 'Dr Tark'
       },
       {
         id: 2,
-        description: 'Õppejõu nimi 2'
+        description: 'Iti Mees'
       },
     ],
   users: [
     {
       id: 1,
-      firstName: 'Juku',
-      lastName: 'Juurikas',
-      email: 'juku@juurikas.ee',
-      password: 'juku',
-      role: 'User',
+      firstName: 'Mikk',
+      lastName: 'Herde',
+      email: 'mikk@herde.ee',
+      password: '$2b$10$oS3mun8dxRkD.K4zFugkpeXelrTKXWQi4fDEeQdqU21BuMyd9id8e',
+      role: 'Admin',
     },
     {
       id: 2,
       firstName: 'Mati',
       lastName: 'Maasikas',
       email: 'mati@maasikas.ee',
-      password: 'mati',
-      role: 'Admin',
+      password: '$2b$10$Dv7y5133dUL.DTiogU1bXeODhoEpuE.AsiiCdUmvQJwKHU57YISyW',
+      role: 'User',
     },
     {
       id: 3,

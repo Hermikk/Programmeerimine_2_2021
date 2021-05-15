@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
-const database = require('../../database');
+//const database = require('../../database');
 const jwtService = require('./jwtService');
 const saltRounds = require('../../config');
+const db = require('../../db');
 
 const usersService = {};
 
