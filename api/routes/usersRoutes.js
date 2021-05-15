@@ -11,7 +11,7 @@ const isAdmin = require('../middlewares/isAdmin');
 /**
  * Users API endpoints
  */
-router.get('/', isLoggedIn, usersController.getUsers);
+router.get('/', usersController.getUsers);
 router.get('/:id', validators.getUserById, usersController.getUserById);
 router.post('/', usersController.createUser);
 router.post('/login', usersController.login);

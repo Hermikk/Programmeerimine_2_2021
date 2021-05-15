@@ -9,8 +9,6 @@ const lecturersRoutes = require('./api/routes/lecturersRoutes');
 const usersRoutes = require('./api/routes/usersRoutes');
 const logger = require('./api/middlewares/logger');
 
-app.use(express.json());
-
 
 // Middleware for creating req.body in express app
 app.use(express.json());
@@ -20,8 +18,6 @@ app.use('/subjects', subjectsRoutes);
 app.use('/volumes', volumesRoutes);
 app.use('/lecturers', lecturersRoutes);
 app.use('/users', usersRoutes);
-
-
 
 // Logger middleware
 app.use(logger);

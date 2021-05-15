@@ -68,6 +68,15 @@ const database = {
       password: 'mati',
       role: 'Admin',
     },
+    {
+      id: 3,
+      firstName: 'Mikk',
+      lastName: 'MH',
+      email: 'mh@mh.ee',
+      password: 'parool',
+      role: 'Admin',
+    },
+
   ],
   
 };

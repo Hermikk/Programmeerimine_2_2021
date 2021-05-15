@@ -7,7 +7,7 @@ const usersService = {};
 
 // Returns list of users
 usersService.getUsers = () => {
-  const { users } = database;
+  const users = database.users;
   return users;
 };
 
@@ -70,8 +70,8 @@ usersService.login = async (login) => {
     if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-        const token = await jwtService.sign(user);
-        return token;
+          const token = await jwtService.sign(user);
+          return token;
         }
     }
     return false;
